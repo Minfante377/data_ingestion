@@ -1,20 +1,18 @@
-from sqlalchemy import Column, DateTime, Enum, ForeignKey, Integer, String
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 from app.database import Base
-from app.schemas.deparment import DeparmentEnum
-from app.schemas.job import JobEnum
 
 
-class Department(Base):
+class Deparment(Base):
     """
     This class implements the deparment model.
     """
 
-    __tablename__ = "department"
+    __tablename__ = "deparment"
 
     id = Column(Integer, primary_key=True, nullable=False)
-    department = Column(Enum(DeparmentEnum), nullable=False)
+    department = Column(String(20), nullable=False)
 
 
 class Job(Base):
@@ -25,7 +23,7 @@ class Job(Base):
     __tablename__ = "job"
 
     id = Column(Integer, primary_key=True, nullable=False)
-    job = Column(Enum(JobEnum), primary_key=True, nullable=False)
+    job = Column(String(20), primary_key=True, nullable=False)
 
 
 class Employee(Base):
@@ -38,8 +36,8 @@ class Employee(Base):
     id = Column(Integer, primary_key=True, nullable=False)
     name = Column(String(50), nullable=True)
     datetime = Column(DateTime, nullable=False)
-    department_id = Column(Integer, ForeignKey("department.id"))
+    department_id = Column(Integer, ForeignKey("deparment.id"))
     job_id = Column(Integer, ForeignKey("job.id"))
 
-    department = relationship("Department")
+    deparment = relationship("Deparment")
     job = relationship("Job")
