@@ -34,8 +34,8 @@ class Employee(Base):
     __tablename__ = "employees"
 
     id = Column(Integer, primary_key=True, nullable=False)
-    name = Column(String(50), nullable=True)
-    datetime = Column(DateTime, nullable=True)
+    name = Column(String(50), nullable=False)
+    datetime = Column(DateTime, nullable=False)
     department_id = Column(Integer, ForeignKey("department.id"))
     job_id = Column(Integer, ForeignKey("job.id"))
 
