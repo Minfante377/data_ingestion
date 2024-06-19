@@ -1,6 +1,7 @@
 import codecs
 import csv
 
+from dateutil import parser
 from fastapi import Depends, FastAPI, HTTPException, UploadFile
 from sqlalchemy.orm import Session
 
@@ -35,6 +36,7 @@ def upload(file: UploadFile, file_type: str, db: Session = Depends(get_db)):
         )
         batch = []
         for row in csvReader:
+            row["datetime"] = parser.parse(row["datetime"])
             batch.append(Employee(**row))
             batch_insert(db, batch)
             return {"employees": len(batch)}

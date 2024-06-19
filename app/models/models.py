@@ -12,7 +12,7 @@ class Deparment(Base):
     __tablename__ = "deparment"
 
     id = Column(Integer, primary_key=True, nullable=False)
-    department = Column(String(20), nullable=False)
+    deparment = Column(String(20), nullable=False)
 
 
 class Job(Base):
