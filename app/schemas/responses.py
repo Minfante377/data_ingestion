@@ -13,3 +13,14 @@ class EmployeesByQuarter(BaseModel):
     q2: int
     q3: int
     q4: int
+
+
+class MostHiresByDepartment(BaseModel):
+    """
+    This class defines the schema for the greatest
+    number of employees hired by deparment
+    """
+
+    id: int
+    department: str
+    hired: int

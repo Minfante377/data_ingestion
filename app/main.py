@@ -10,7 +10,7 @@ from sqlalchemy.sql import text
 from app.crud import batch_insert
 from app.database import SessionLocal
 from app.models.models import Department, Employee, Job
-from app.schemas.responses import EmployeesByQuarter
+from app.schemas.responses import EmployeesByQuarter, MostHiresByDepartment
 
 app = FastAPI()
 
@@ -125,6 +125,44 @@ def get_employees_by_quarter(db: Session = Depends(get_db)) -> List[EmployeesByQ
             q3=r[4],
             q4=r[5],
         )
+        for r in result.fetchall()
+    ]
+
+    return data
+
+
+@app.get("/employees_by_deparment")
+def get_employees_by_department(
+    db: Session = Depends(get_db),
+) -> List[MostHiresByDepartment]:
+    query = """
+    WITH employees_by_department AS (
+        SELECT
+            department_id,
+            COUNT(department_id) AS hired
+        FROM employees
+        WHERE strftime('%Y', datetime) = '2021'
+        GROUP BY department_id
+    ),
+    avg_employees AS (
+        SELECT
+            department_id,
+            hired,
+            AVG(hired) OVER () AS avg_hired
+        FROM employees_by_department
+    )
+    SELECT
+        d.id,
+        d.department,
+        e.hired
+    FROM avg_employees e
+    INNER JOIN department d ON d.id = e.department_id
+    WHERE e.hired > e.avg_hired
+    ORDER BY e.hired DESC
+    """
+    result = db.execute(text(query))
+    data = [
+        MostHiresByDepartment(id=r[0], department=r[1], hired=r[2])
         for r in result.fetchall()
     ]
 
