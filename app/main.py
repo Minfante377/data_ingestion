@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 
 from app.crud import batch_insert
 from app.database import SessionLocal
-from app.models import Deparment, Employee, Job
+from app.models.models import Deparment, Employee, Job
 
 app = FastAPI()
 
