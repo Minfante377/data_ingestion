@@ -49,7 +49,7 @@ def upload(file: UploadFile, file_type: str, db: Session = Depends(get_db)):
             batch_insert(db, batch)
             return {"jobs": len(batch)}
 
-    if file_type == "department":
+    if file_type == "deparment":
         csvReader = csv.DictReader(
             codecs.iterdecode(file.file, "utf-8"), fieldnames=["id", "deparment"]
         )
