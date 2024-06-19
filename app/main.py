@@ -1,11 +1,11 @@
 import codecs
 import csv
 
-from fastapi import Depends, FastAPI, HttpException, UploadFile
+from fastapi import Depends, FastAPI, HTTPException, UploadFile
 from sqlalchemy.orm import Session
 
 from app.crud import batch_insert
-from app.database import SessionLocal, engine
+from app.database import SessionLocal
 from app.models import Deparment, Employee, Job
 
 app = FastAPI()
@@ -58,3 +58,8 @@ def upload(file: UploadFile, file_type: str, db: Session = Depends(get_db)):
             batch.append(Deparment(**row))
             batch_insert(db, batch)
             return {"deparments": len(batch)}
+
+    raise HTTPException(
+        status_code=400,
+        detail="File type must be one of ['job', 'deparment', 'employee']",
+    )
