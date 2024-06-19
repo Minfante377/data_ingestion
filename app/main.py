@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 
 from app.crud import batch_insert
 from app.database import SessionLocal
-from app.models.models import Deparment, Employee, Job
+from app.models.models import Department, Employee, Job
 
 app = FastAPI()
 
@@ -36,10 +36,11 @@ def upload(file: UploadFile, file_type: str, db: Session = Depends(get_db)):
         )
         batch = []
         for row in csvReader:
-            row["datetime"] = parser.parse(row["datetime"])
+            if row["datetime"]:
+                row["datetime"] = parser.parse(row["datetime"])
             batch.append(Employee(**row))
-            batch_insert(db, batch)
-            return {"employees": len(batch)}
+        batch_insert(db, batch)
+        return {"employees": len(batch)}
 
     if file_type == "job":
         csvReader = csv.DictReader(
@@ -48,18 +49,19 @@ def upload(file: UploadFile, file_type: str, db: Session = Depends(get_db)):
         batch = []
         for row in csvReader:
             batch.append(Job(**row))
-            batch_insert(db, batch)
-            return {"jobs": len(batch)}
 
-    if file_type == "deparment":
+        batch_insert(db, batch)
+        return {"jobs": len(batch)}
+
+    if file_type == "department":
         csvReader = csv.DictReader(
-            codecs.iterdecode(file.file, "utf-8"), fieldnames=["id", "deparment"]
+            codecs.iterdecode(file.file, "utf-8"), fieldnames=["id", "department"]
         )
         batch = []
         for row in csvReader:
-            batch.append(Deparment(**row))
-            batch_insert(db, batch)
-            return {"deparments": len(batch)}
+            batch.append(Department(**row))
+        batch_insert(db, batch)
+        return {"departments": len(batch)}
 
     raise HTTPException(
         status_code=400,

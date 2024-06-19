@@ -4,15 +4,15 @@ from sqlalchemy.orm import relationship
 from app.database import Base
 
 
-class Deparment(Base):
+class Department(Base):
     """
     This class implements the deparment model.
     """
 
-    __tablename__ = "deparment"
+    __tablename__ = "department"
 
     id = Column(Integer, primary_key=True, nullable=False)
-    deparment = Column(String(20), nullable=False)
+    department = Column(String(20), nullable=False)
 
 
 class Job(Base):
@@ -36,8 +36,8 @@ class Employee(Base):
     id = Column(Integer, primary_key=True, nullable=False)
     name = Column(String(50), nullable=True)
     datetime = Column(DateTime, nullable=False)
-    department_id = Column(Integer, ForeignKey("deparment.id"))
+    department_id = Column(Integer, ForeignKey("department.id"))
     job_id = Column(Integer, ForeignKey("job.id"))
 
-    deparment = relationship("Deparment")
+    department = relationship("Department")
     job = relationship("Job")
