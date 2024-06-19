@@ -7,7 +7,7 @@ class EmployeesByQuarter(BaseModel):
     the hired employees by job, department and quarter.
     """
 
-    deparment: str
+    department: str
     job: str
     q1: int
     q2: int
