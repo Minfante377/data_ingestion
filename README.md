@@ -41,3 +41,12 @@ uvicorn app.main:app --host 0.0.0.0 --port 8000
 ```
 
 You can use the /docs endpoint to quickly test the API.
+
+## Unit test
+
+Simply run:
+
+```
+pytest -vv
+```
+to execute the unit tests locally

@@ -131,7 +131,7 @@ def get_employees_by_quarter(db: Session = Depends(get_db)) -> List[EmployeesByQ
     return data
 
 
-@app.get("/employees_by_deparment")
+@app.get("/employees_by_department")
 def get_employees_by_department(
     db: Session = Depends(get_db),
 ) -> List[MostHiresByDepartment]:
