@@ -40,6 +40,15 @@ Start the server by running:
 uvicorn app.main:app --host 0.0.0.0 --port 8000
 ```
 
+Or by using docker:
+
+```
+docker build -t migration .
+
+docker run -d --name migration-app -p 8000:8000 \
+-v $PWD/app/database.db:/code/app/database.db migration
+```
+
 You can use the /docs endpoint to quickly test the API.
 
 ## Unit test
